@@ -1,0 +1,8 @@
+ 表列注释：
+ 在表的列注释上添加：[type=1&fmt=yyyy-MM-dd]  
+ 1 所有字符采用英文字符
+ 2 type=1是固定的表示该列对应的Bean属性采用SpringMVC日期格式化绑定机制
+ 3 列的类型使用DATETIME
+ 4 生成结果会在对应的
+	 注解@DateTimeFormat 
+	 并在类引入包import org.springframework.format.annotation.DateTimeFormat】

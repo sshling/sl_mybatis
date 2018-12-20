@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+       <!-- 基于tx/aop命名空间配置声明式事务 -->
+       <!-- 1：需要实施事务增强的目标业务Bean ,不再像之前为了避免冲突加Target后缀-->
+       <bean id="baseDao" class="cn.shaolingweb.framework.dao.MyBatisBaseDaoImpl" ></bean>
+	<jdbc:embedded-database id="dataSource">
+		<jdbc:script location="classpath:database/jpetstore-hsqldb-schema.sql" />
+		<jdbc:script location="classpath:database/jpetstore-hsqldb-dataload.sql" />
+	</jdbc:embedded-database>
+	<!-- 2：事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+       <!-- 3：使用强大的切点表达式语言轻松定义目标方法 -->
+       <!-- 3.1 事务增强  默认事务管理器是transactionManager -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<!-- 3.1.1 事务属性定义 :IDE可提示的属性和属性值的形式，不再是之前易出错的逗号分隔字符串-->
+		<tx:attributes>
+			<tx:method name="find*"   read-only="true" propagation="REQUIRED"
+			 rollback-for="Exception"/><!-- 多个异常逗号分隔 -->
+		</tx:attributes>
+	</tx:advice>
+	<!--  确认MySQL数据库支持回滚
+		-- 查询支持的
+		SHOW ENGINES;
+		-- 查询当前表使用的存储引擎
+		 SHOW CREATE TABLE `sales_ko_product`;
+		 SHOW TABLE STATUS FROM `test` WHERE NAME='sales_ko_product';
+		-- 修改表存储引擎
+		ALTER TABLE `sales_ko_product` ENGINE=INNODB;
+	 -->
+       <aop:config>
+       		<!-- 3.2 通过aop定义事务增强切点 -->
+       		<aop:pointcut id="serviceMethod" expression="execution(* cn.shaolingweb..*.*Service.*(..))" />
+       		<!-- 3.3事务切面：在哪个切点使用哪个增强 -->
+       		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"  />
+       </aop:config>
+	
+</beans>

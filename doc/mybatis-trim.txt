@@ -1,0 +1,17 @@
+<trim>属性说明
+1.prefix,suffix 表示在trim标签包裹的部分的前面或者后面添加内容
+2.如果同时有prefixOverrides,suffixOverrides 表示会用prefix,suffix覆盖Overrides中的内容。
+3.如果只有prefixOverrides,suffixOverrides 表示删除开头的或结尾的xxxOverides指定的内容。
+
+批量更新
+https://blog.csdn.net/xyjawq1/article/details/74129316
+
+
+
+
+
+
+
+
+
+

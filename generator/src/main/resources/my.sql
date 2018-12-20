@@ -1,0 +1,10 @@
+Created_tmp_disk_tables	2
+Created_tmp_tables	3
+Handler_commit	1
+Handler_external_lock	10
+Handler_read_first	1
+Handler_read_key	7478
+Handler_read_next	6462
+Handler_read_rnd	5462
+Handler_read_rnd_next	6478
+Handler_write	6459

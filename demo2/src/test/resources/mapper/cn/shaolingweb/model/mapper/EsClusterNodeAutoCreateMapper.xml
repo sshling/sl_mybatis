@@ -1,0 +1,318 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.shaolingweb.model.EsClusterNode">
+
+<!-- =================== 自定义代码区start =================== -->
+	
+<!-- =================== 自定义代码区 end ===================  -->
+	<resultMap id="auto_RM_EsClusterNode" type="cn.shaolingweb.model.EsClusterNode">
+		<result property="id" column="id"/>
+		<result property="clusterId" column="cluster_id"/>
+		<result property="ip" column="ip"/>
+		<result property="httpPort" column="http_port"/>
+		<result property="type" column="type"/>
+		<result property="memory" column="memory"/>
+		<result property="pid" column="pid"/>
+		<result property="parameter" column="parameter"/>
+		<result property="desc" column="desc"/>
+		<result property="creator" column="creator"/>
+		<result property="createTime" column="create_time"/>
+		<result property="modifier" column="modifier"/>
+		<result property="modifyTime" column="modify_time"/>
+		<result property="tcpPort" column="tcp_port"/>
+		<result property="clusterServerId" column="cluster_server_id"/>
+		<result property="status" column="status"/>
+		<result property="dockerFlag" column="docker_flag"/>
+		<result property="dockerCoreIsoFlag" column="docker_core_iso_flag"/>
+		<result property="dockerCore" column="docker_core"/>
+		<result property="dockerCoreDetail" column="docker_core_detail"/>
+		<result property="dockerParamCpuShares" column="docker_param_cpu_shares"/>
+		<result property="dockerParamCpuPeriod" column="docker_param_cpu_period"/>
+		<result property="dockerParamCpuQuota" column="docker_param_cpu_quota"/>
+		<result property="dockerParamCpusetCpus" column="docker_param_cpuset_cpus"/>
+		<result property="dockerParamCpusetMems" column="docker_param_cpuset_mems"/>
+		<result property="dockerParamMemory" column="docker_param_memory"/>
+		<result property="dockerParamMemorySwap" column="docker_param_memory_swap"/>
+		<result property="restartTime" column="restart_time"/>
+		<result property="dockerParamDisk" column="docker_param_disk"/>
+		<result property="nodeModelId" column="node_model_id"/>
+		<result property="deployStatus" column="deploy_status"/>
+		<result property="scheduleOrderId" column="schedule_order_id"/>
+		<result property="scheduleType" column="schedule_type"/>
+	</resultMap>
+	<sql id="auto_columns">
+    <![CDATA[`id`,`cluster_id`,`ip`,`http_port`,`type`,`memory`,`pid`,`parameter`,`desc`,`creator`,`create_time`,`modifier`,`modify_time`,`tcp_port`,`cluster_server_id`,`status`,`docker_flag`,`docker_core_iso_flag`,`docker_core`,`docker_core_detail`,`docker_param_cpu_shares`,`docker_param_cpu_period`,`docker_param_cpu_quota`,`docker_param_cpuset_cpus`,`docker_param_cpuset_mems`,`docker_param_memory`,`docker_param_memory_swap`,`restart_time`,`docker_param_disk`,`node_model_id`,`deploy_status`,`schedule_order_id`,`schedule_type` ]]>
+</sql>
+	<insert id="auto_insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO es_cluster_node(<include refid="auto_columns" />)  
+	    <![CDATA[VALUES(#{id}, #{clusterId}, #{ip}, #{httpPort}, #{type}, #{memory}, #{pid}, #{parameter}, #{desc}, #{creator}, #{createTime}, #{modifier}, #{modifyTime}, #{tcpPort}, #{clusterServerId}, #{status}, #{dockerFlag}, #{dockerCoreIsoFlag}, #{dockerCore}, #{dockerCoreDetail}, #{dockerParamCpuShares}, #{dockerParamCpuPeriod}, #{dockerParamCpuQuota}, #{dockerParamCpusetCpus}, #{dockerParamCpusetMems}, #{dockerParamMemory}, #{dockerParamMemorySwap}, #{restartTime}, #{dockerParamDisk}, #{nodeModelId}, #{deployStatus}, #{scheduleOrderId}, #{scheduleType} )]]>
+	</insert>
+	<!-- 批量插入 -->
+	<insert id="auto_insertBatch" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO es_cluster_node(<include refid="auto_columns" />) 
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},#{item.clusterId},#{item.ip},#{item.httpPort},#{item.type},#{item.memory},#{item.pid},#{item.parameter},#{item.desc},#{item.creator},#{item.createTime},#{item.modifier},#{item.modifyTime},#{item.tcpPort},#{item.clusterServerId},#{item.status},#{item.dockerFlag},#{item.dockerCoreIsoFlag},#{item.dockerCore},#{item.dockerCoreDetail},#{item.dockerParamCpuShares},#{item.dockerParamCpuPeriod},#{item.dockerParamCpuQuota},#{item.dockerParamCpusetCpus},#{item.dockerParamCpusetMems},#{item.dockerParamMemory},#{item.dockerParamMemorySwap},#{item.restartTime},#{item.dockerParamDisk},#{item.nodeModelId},#{item.deployStatus},#{item.scheduleOrderId},#{item.scheduleType})
+		</foreach>
+	</insert>
+	<!-- 更新条件 -->
+     <sql id="auto_update_sql">
+         <set>
+		 	<!-- set元素：前置set关键字且消除无关逗号,等价<trim prefix="SET" suffixOverrides=","> -->
+                <if test="clusterId != null">`cluster_id` =#{clusterId},</if>
+                <if test="ip != null and ip != ''">`ip` = #{ip} ,</if>
+                <if test="httpPort != null and httpPort != ''">`http_port` = #{httpPort} ,</if>
+                <if test="type != null">`type` =#{type},</if>
+                <if test="memory != null">`memory` =#{memory},</if>
+                <if test="pid != null">`pid` =#{pid},</if>
+                <if test="parameter != null and parameter != ''">`parameter` = #{parameter} ,</if>
+                <if test="desc != null and desc != ''">`desc` = #{desc} ,</if>
+                <if test="creator != null and creator != ''">`creator` = #{creator} ,</if>
+                <if test="createTime != null">`create_time` =#{createTime}, </if>
+                <if test="modifier != null and modifier != ''">`modifier` = #{modifier} ,</if>
+                <if test="modifyTime != null">`modify_time` =#{modifyTime}, </if>
+                <if test="tcpPort != null and tcpPort != ''">`tcp_port` = #{tcpPort} ,</if>
+                <if test="clusterServerId != null">`cluster_server_id` =#{clusterServerId},</if>
+                <if test="status != null">`status` =#{status},</if>
+                <if test="dockerFlag != null">`docker_flag` =#{dockerFlag},</if>
+                <if test="dockerCoreIsoFlag != null">`docker_core_iso_flag` =#{dockerCoreIsoFlag},</if>
+                <if test="dockerCore != null">`docker_core` =#{dockerCore},</if>
+                <if test="dockerCoreDetail != null and dockerCoreDetail != ''">`docker_core_detail` = #{dockerCoreDetail} ,</if>
+                <if test="dockerParamCpuShares != null and dockerParamCpuShares != ''">`docker_param_cpu_shares` = #{dockerParamCpuShares} ,</if>
+                <if test="dockerParamCpuPeriod != null and dockerParamCpuPeriod != ''">`docker_param_cpu_period` = #{dockerParamCpuPeriod} ,</if>
+                <if test="dockerParamCpuQuota != null and dockerParamCpuQuota != ''">`docker_param_cpu_quota` = #{dockerParamCpuQuota} ,</if>
+                <if test="dockerParamCpusetCpus != null and dockerParamCpusetCpus != ''">`docker_param_cpuset_cpus` = #{dockerParamCpusetCpus} ,</if>
+                <if test="dockerParamCpusetMems != null and dockerParamCpusetMems != ''">`docker_param_cpuset_mems` = #{dockerParamCpusetMems} ,</if>
+                <if test="dockerParamMemory != null and dockerParamMemory != ''">`docker_param_memory` = #{dockerParamMemory} ,</if>
+                <if test="dockerParamMemorySwap != null and dockerParamMemorySwap != ''">`docker_param_memory_swap` = #{dockerParamMemorySwap} ,</if>
+                <if test="restartTime != null">`restart_time` =#{restartTime}, </if>
+                <if test="dockerParamDisk != null">`docker_param_disk` =#{dockerParamDisk},</if>
+                <if test="nodeModelId != null">`node_model_id` =#{nodeModelId},</if>
+                <if test="deployStatus != null">`deploy_status` =#{deployStatus},</if>
+                <if test="scheduleOrderId != null">`schedule_order_id` =#{scheduleOrderId},</if>
+                <if test="scheduleType != null">`schedule_type` =#{scheduleType}</if>
+       </set>
+    </sql>
+    <!-- 完全自定义更新SQL -->
+    <update id="auto_updateCustomSql" >${customSql}</update>
+	<!-- 更新语句 -->
+	<update id="auto_update" >
+		UPDATE  es_cluster_node  <include refid="auto_update_sql" />
+		<where>
+			<if test="extraConditions != null  and extraConditions !=''"> ${extraConditions}</if>
+		<choose>  
+		<when test="ids != null  and ids !=''">id in (${ids})</when>  
+		<otherwise>
+			id =#{id}
+		</otherwise>  
+		</choose> 
+		</where>
+	</update>
+
+	<!-- 删除:自定义 -->
+	<delete id="auto_deleteCustomSql" >${customSql}</delete>
+	<delete id="auto_delete">
+		DELETE FROM es_cluster_node 
+		<where> 
+			id=#{id}
+	    </where>
+	</delete>
+	<delete id="auto_deleteByCondition">
+		DELETE FROM es_cluster_node
+		<choose> 
+			<!-- todo --> 
+			<when test="where != null and where !=''">
+${where}			</when>  
+		    <otherwise>
+				<include refid="auto_findPage_where"/>
+			</otherwise>  
+		</choose>
+	</delete>
+	<delete id="auto_delete_batch_string" >
+		<![CDATA[ DELETE FROM sales_ko_product WHERE id IN (${ids}) ]]>
+	</delete>
+    <select id="auto_getById" resultMap="auto_RM_EsClusterNode">
+	    SELECT <include refid="auto_columns" />
+	    <![CDATA[FROM es_cluster_node WHERE id = #{id} ]]>
+    </select>
+    <sql id="auto_findPage_where"><!-- ognl访问静态方法为@class@method(args),以下Ognl.isNotEmpty()方法,其它如isNotBlank()可用，具体查Ognl类 -->
+		<where> 
+			<if test="ids != null  and ids !=''"> AND id in (${ids})</if>
+
+			<if test="id != null">AND id = #{id}</if>
+
+			<if test="clusterId != null">AND cluster_id = #{clusterId}</if>
+
+			<if test="ip != null and ip !=''">
+				<choose>
+					<when test="selectType['ip']==1">AND ip like CONCAT('%', #{ip}, '%')</when>  
+					<otherwise>AND `ip` = #{ip}</otherwise>
+				</choose>
+			</if>
+
+			<if test="httpPort != null and httpPort !=''">
+				<choose>
+					<when test="selectType['httpPort']==1">AND http_port like CONCAT('%', #{httpPort}, '%')</when>  
+					<otherwise>AND `http_port` = #{httpPort}</otherwise>
+				</choose>
+			</if>
+
+			<if test="type != null">AND type = #{type}</if>
+
+			<if test="memory != null">AND memory = #{memory}</if>
+
+			<if test="pid != null">AND pid = #{pid}</if>
+
+			<if test="parameter != null and parameter !=''">
+				<choose>
+					<when test="selectType['parameter']==1">AND parameter like CONCAT('%', #{parameter}, '%')</when>  
+					<otherwise>AND `parameter` = #{parameter}</otherwise>
+				</choose>
+			</if>
+
+			<if test="desc != null and desc !=''">
+				<choose>
+					<when test="selectType['desc']==1">AND desc like CONCAT('%', #{desc}, '%')</when>  
+					<otherwise>AND `desc` = #{desc}</otherwise>
+				</choose>
+			</if>
+
+			<if test="creator != null and creator !=''">
+				<choose>
+					<when test="selectType['creator']==1">AND creator like CONCAT('%', #{creator}, '%')</when>  
+					<otherwise>AND `creator` = #{creator}</otherwise>
+				</choose>
+			</if>
+			<if test="createTimeBegin != null">AND create_time >= #{createTimeBegin}</if>
+			<if test="createTimeEnd != null">AND create_time &lt;= #{createTimeEnd}</if>
+
+			<if test="modifier != null and modifier !=''">
+				<choose>
+					<when test="selectType['modifier']==1">AND modifier like CONCAT('%', #{modifier}, '%')</when>  
+					<otherwise>AND `modifier` = #{modifier}</otherwise>
+				</choose>
+			</if>
+			<if test="modifyTimeBegin != null">AND modify_time >= #{modifyTimeBegin}</if>
+			<if test="modifyTimeEnd != null">AND modify_time &lt;= #{modifyTimeEnd}</if>
+
+			<if test="tcpPort != null and tcpPort !=''">
+				<choose>
+					<when test="selectType['tcpPort']==1">AND tcp_port like CONCAT('%', #{tcpPort}, '%')</when>  
+					<otherwise>AND `tcp_port` = #{tcpPort}</otherwise>
+				</choose>
+			</if>
+
+			<if test="clusterServerId != null">AND cluster_server_id = #{clusterServerId}</if>
+
+			<if test="status != null">AND status = #{status}</if>
+
+			<if test="dockerFlag != null">AND docker_flag = #{dockerFlag}</if>
+
+			<if test="dockerCoreIsoFlag != null">AND docker_core_iso_flag = #{dockerCoreIsoFlag}</if>
+
+			<if test="dockerCore != null">AND docker_core = #{dockerCore}</if>
+
+			<if test="dockerCoreDetail != null and dockerCoreDetail !=''">
+				<choose>
+					<when test="selectType['dockerCoreDetail']==1">AND docker_core_detail like CONCAT('%', #{dockerCoreDetail}, '%')</when>  
+					<otherwise>AND `docker_core_detail` = #{dockerCoreDetail}</otherwise>
+				</choose>
+			</if>
+
+			<if test="dockerParamCpuShares != null and dockerParamCpuShares !=''">
+				<choose>
+					<when test="selectType['dockerParamCpuShares']==1">AND docker_param_cpu_shares like CONCAT('%', #{dockerParamCpuShares}, '%')</when>  
+					<otherwise>AND `docker_param_cpu_shares` = #{dockerParamCpuShares}</otherwise>
+				</choose>
+			</if>
+
+			<if test="dockerParamCpuPeriod != null and dockerParamCpuPeriod !=''">
+				<choose>
+					<when test="selectType['dockerParamCpuPeriod']==1">AND docker_param_cpu_period like CONCAT('%', #{dockerParamCpuPeriod}, '%')</when>  
+					<otherwise>AND `docker_param_cpu_period` = #{dockerParamCpuPeriod}</otherwise>
+				</choose>
+			</if>
+
+			<if test="dockerParamCpuQuota != null and dockerParamCpuQuota !=''">
+				<choose>
+					<when test="selectType['dockerParamCpuQuota']==1">AND docker_param_cpu_quota like CONCAT('%', #{dockerParamCpuQuota}, '%')</when>  
+					<otherwise>AND `docker_param_cpu_quota` = #{dockerParamCpuQuota}</otherwise>
+				</choose>
+			</if>
+
+			<if test="dockerParamCpusetCpus != null and dockerParamCpusetCpus !=''">
+				<choose>
+					<when test="selectType['dockerParamCpusetCpus']==1">AND docker_param_cpuset_cpus like CONCAT('%', #{dockerParamCpusetCpus}, '%')</when>  
+					<otherwise>AND `docker_param_cpuset_cpus` = #{dockerParamCpusetCpus}</otherwise>
+				</choose>
+			</if>
+
+			<if test="dockerParamCpusetMems != null and dockerParamCpusetMems !=''">
+				<choose>
+					<when test="selectType['dockerParamCpusetMems']==1">AND docker_param_cpuset_mems like CONCAT('%', #{dockerParamCpusetMems}, '%')</when>  
+					<otherwise>AND `docker_param_cpuset_mems` = #{dockerParamCpusetMems}</otherwise>
+				</choose>
+			</if>
+
+			<if test="dockerParamMemory != null and dockerParamMemory !=''">
+				<choose>
+					<when test="selectType['dockerParamMemory']==1">AND docker_param_memory like CONCAT('%', #{dockerParamMemory}, '%')</when>  
+					<otherwise>AND `docker_param_memory` = #{dockerParamMemory}</otherwise>
+				</choose>
+			</if>
+
+			<if test="dockerParamMemorySwap != null and dockerParamMemorySwap !=''">
+				<choose>
+					<when test="selectType['dockerParamMemorySwap']==1">AND docker_param_memory_swap like CONCAT('%', #{dockerParamMemorySwap}, '%')</when>  
+					<otherwise>AND `docker_param_memory_swap` = #{dockerParamMemorySwap}</otherwise>
+				</choose>
+			</if>
+			<if test="restartTimeBegin != null">AND restart_time >= #{restartTimeBegin}</if>
+			<if test="restartTimeEnd != null">AND restart_time &lt;= #{restartTimeEnd}</if>
+
+			<if test="dockerParamDisk != null">AND docker_param_disk = #{dockerParamDisk}</if>
+
+			<if test="nodeModelId != null">AND node_model_id = #{nodeModelId}</if>
+
+			<if test="deployStatus != null">AND deploy_status = #{deployStatus}</if>
+
+			<if test="scheduleOrderId != null">AND schedule_order_id = #{scheduleOrderId}</if>
+
+			<if test="scheduleType != null">AND schedule_type = #{scheduleType}</if>
+			<if test="extraConditions != null">AND ${extraConditions}</if>
+		</where>
+    </sql>
+    <select id="auto_findPage_count" resultType="long">
+        SELECT count(*) FROM es_cluster_node 
+		<choose>  
+			<when test="where != null and where !=''"> ${where}</when>  
+		<otherwise>
+			<include refid="auto_findPage_where"/>
+		</otherwise>  
+		</choose>
+    </select>
+    <select id="auto_findPage" resultMap="auto_RM_EsClusterNode"><!-- 分页查询已用Dialect分页,也可以直接编写分页,将传 offset,pageSize,lastRows 3个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现 -->
+    	SELECT
+    	<choose>  
+	   		<when test="selectColumns != null and selectColumns !=''">
+${selectColumns}			</when>  
+			<otherwise>
+				<include refid="auto_columns" />
+			</otherwise>  
+		</choose>
+    	FROM es_cluster_node
+		<choose>  
+			<when test="where != null and where !=''"> ${where}</when>  
+			<otherwise>
+				<include refid="auto_findPage_where"/>
+				<if test="groupColumns != null and groupColumns!=''">group by ${groupColumns}</if>
+				<if test="sortColumns != null  and sortColumns!=''">order by ${sortColumns}</if>
+			</otherwise>  
+		</choose>
+    </select>
+
+	<!-- 基于有unique索引的字段查询，非主键 -->
+    <!-- 示例用法 -->
+    <delete id="auto_delete_batch_list">
+        DELETE FROM es_cluster_node WHERE id IN <foreach item="item" collection="list" open="(" separator="," close=")">#{item}</foreach>
+    </delete>
+</mapper>

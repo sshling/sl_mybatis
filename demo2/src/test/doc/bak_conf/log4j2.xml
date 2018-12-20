@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="INFO" monitorInterval="30">
+
+    <Properties>
+        <Property name="baseDir">/export/Logs/es-comment</Property>
+    </Properties>
+
+    <appenders>
+        <console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5p] [%-20c{1.} %L][%M] %m%n"/>
+        </console>
+        <RollingFile name="rollingInfoFile" fileName="${baseDir}/comment.log"
+                     filePattern="${baseDir}/comment-%d{yyyy-MM-dd}-%i.log">
+            <filters>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5p] [%-20c{1.} %L][%M] - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="900MB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="rollingErrorFile" fileName="${baseDir}/error-comment.log"
+                     filePattern="${baseDir}/error-comment-%d{yyyy-MM-dd}-%i.log">
+            <filters>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5p] [%-20c{1.} %L][%M] - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="900MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="3">
+                <Delete basePath="${baseDir}/" maxDepth="2" testMode="false">
+                        <IfLastModified age="3d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <logger name="com.jd.jsf" level="WARN" additivity="false">
+            <AppenderRef ref="rollingErrorFile"/>
+        </logger>
+
+        <logger name="org.apache.logging.log4j" level="TRACE" >
+            <appender-ref ref="console"/>
+        </logger>
+
+        <logger name="com.jd.es" level="debug"/>
+        <logger name="org.springframework" level="WARN"></logger>
+        <logger name="io.netty" level="warn"></logger>
+        <root level="INFO">
+            <appender-ref ref="console"/>
+            <appender-ref ref="rollingInfoFile"/>
+            <appender-ref ref="rollingErrorFile"/>
+        </root>
+    </loggers>
+</configuration>

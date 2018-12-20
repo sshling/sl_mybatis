@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>
+		代码生成器配置文件: 
+		1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
+		2.可以引用环境变量: ${env.JAVA_HOME} or System.properties: ${user.home},property之间也可以相互引用
+	</comment>
+	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
+	<entry key="namespace">pages</entry>
+	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
+	<entry key="tableRemovePrefixes">my_</entry>
+	<!--
+	mybatis:基本数据类型不能直接使用,因为它是面向对象的解决方案,因此所有参数和结果必须是对象.
+	Mysql数据库类型至java类型映射
+	 bigint -> Long
+	 smallint -> Short
+	 tinyint -> Byte
+	 bool ->
+	 enum("1","2","3") -> String ,db中根据枚举成员中列出顺序(即索引编号:1起)对enum值进行排序.
+	 		null,空字符串,其它按规则排序
+	 bool ->
+	 -->
+	<entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
+	<entry key="java_typemapping.java.sql.Date">java.util.Date</entry>
+	<entry key="java_typemapping.java.sql.Time">java.util.Date</entry>	
+	<entry key="java_typemapping.java.lang.Byte">Integer</entry>
+	<entry key="java_typemapping.java.lang.smallint">Short</entry>
+	<entry key="java_typemapping.java.lang.Tinyint">Byte</entry>
+	<entry key="java_typemapping.java.math.BigDecimal">Long</entry>
+	<entry key="java_typemapping.java.sql.Clob">String</entry>
+	<!-- Oracle		jdbc:oracle:oci:@tnsname_devdb
+	     oracle需要指定jdbc.schema,并且可能要大写，其它数据库忽略此项配置
+	<entry key="jdbc.schema"></entry>
+	<entry key="jdbc.catalog"></entry>
+	<entry key="jdbc.url">jdbc:oracle:thin:@192.168.0.177:1521:[sid]</entry>
+	<entry key="jdbc.driver">oracle.jdbc.driver.OracleDriver</entry>
+	-->
+	<!-- SQLServer2005 
+	<entry key="jdbc.url">jdbc:sqlserver://192.168.0.98:1433;DatabaseName=[database]</entry>
+	<entry key="jdbc.driver">com.microsoft.sqlserver.jdbc.SQLServerDriver</entry>
+	-->
+	<!-- Derby 
+	<entry key="jdbc.url">jdbc:derby://localhost/databaseName</entry>
+	<entry key="jdbc.driver">org.apache.derby.jdbc.ClientDriver</entry>	
+	-->
+	<!-- H2 
+	<entry key="jdbc.url">jdbc:h2:tcp://localhost/~/test</entry>
+	<entry key="jdbc.driver">org.h2.Driver</entry>
+	-->
+</properties>

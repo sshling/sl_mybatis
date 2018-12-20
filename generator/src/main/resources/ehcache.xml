@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+	updateCheck="false">
+	<diskStore path="java.io.tmpdir" />
+	<!-- 
+	配置详解：http://aniyo.iteye.com/blog/1538327
+	 -->
+	<defaultCache 
+		name="测试"
+		eternal="false" 
+		maxElementsInMemory="1000"
+		overflowToDisk="false" 
+		diskPersistent="false" 
+		timeToIdleSeconds="0"
+		timeToLiveSeconds="600" 
+		memoryStoreEvictionPolicy="LRU" 
+		statistics="true"
+		/>
+ 	<cacheManagerPeerListenerFactory
+	class="org.terracotta.ehcachedx.monitor.probe.ProbePeerListenerFactory"
+	properties="monitorAddress=localhost, monitorPort=9889, memoryMeasurement=true" />
+	
+	
+</ehcache>

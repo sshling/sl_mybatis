@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       ">
+       
+       <context:property-placeholder location="generator.properties"/>
+       	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+              <property name="driverClassName"  value="${db.driver}" /> 
+              <property name="url" value="${db.url}" /> 
+              <property name="username"  value="${db.username}" /> 
+              <property name="password" value="${db.password}" /> 
+       </bean> 
+ 	<!-- transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 开启注解配置 -->
+	<context:annotation-config />  
+	
+	<!-- 开启事务注解驱动 :配置事务管理器-->
+	<tx:annotation-driven/>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="cn.shaolingweb.demo.curd.model" />
+		<property name="mapperLocations"  value="cn/shaolingweb/demo/**/*Mapper.xml"  />
+		<property name="configurationProperties">
+			<props>
+				<prop key="cacheEnabled">true</prop>
+				<!-- 以map返回时，即时null也设置返回 -->
+				<prop key="callSettersOnNulls">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 注意scope：3.2需设置为prototype，3.1无需，否则会有sqlSession关闭问题 
+	SqlSessionTemplate和SqlSession关系：
+		sqlssion是线程不安全的,和HTTP中的request对象很像，
+		每次请求相当启动一个数据库事务，可能连接N(N>=0)次数据库
+		数据库连接池就是java.sql.Datasource的一种实现
+	sqlsession只是接口，是否线程安全不能下定论，3个实现：
+			DefaultSqlSession:
+			SqlSessionManager:
+			SqlSessionTemplate:	
+		前两个是mybatis的实现都是线程不安全的,最后一个是mybatis-spring中间件的线程安全实现 
+	-->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" >
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	    <!-- 自动扫描映射器    scan for mappers and let them be autowired 
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	    <property name="basePackage" value="org.mybatis.jpetstore.persistence" />
+	</bean>
+	-->
+	<!-- 扫描service层 -->
+	<context:component-scan base-package="cn.shaolingweb.framework.dao" />  
+	<context:component-scan base-package="cn.shaolingweb.demo.curd" />  
+</beans>

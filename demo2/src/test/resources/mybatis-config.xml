@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 全局别名设置 -->
+    <typeAliases>
+        <typeAlias type="com.jd.es.rpc.domain.ClusterUsageInfo" alias="ClusterUsageInfo"/>
+
+        <package name="com.jd.elasticsearch.admin.domain"/>
+        <package name="com.jd.elasticsearch.admin.query"/>
+    </typeAliases>
+    <typeHandlers>
+        <typeHandler javaType="Boolean" jdbcType="CHAR"
+                     handler="org.apache.ibatis.type.BooleanTypeHandler"/>
+        <typeHandler javaType="com.jd.elasticsearch.admin.domain.ScheduleItem" jdbcType="VARCHAR"
+                     handler="com.jd.elasticsearch.admin.typehandler.ScheduleItemTypeHandler"/>
+    </typeHandlers>
+
+</configuration>

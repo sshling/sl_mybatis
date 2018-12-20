@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+       
+       <context:property-placeholder location="db.properties"/>
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" >
+			<property name="name" value="app1"/><!-- 多数据源时，监控时进行区分 -->
+			<property name="url" value="${url}" />
+			<property name="username" value="${username}" />
+			<property name="password" value="${password}" />
+			<property name="driverClassName" value="${driverClassName}" /><!-- 可不配,根据url自动识别 -->
+			<property name="filters" value="${filters}" />
+			<property name="maxActive" value="${maxActive}" /><!-- 最大连接池数量 -->
+			<property name="minIdle" value="${minIdle}" /><!-- 最小连接池数量 -->
+			<property name="initialSize" value="${initialSize}" /><!-- 初始化时建立物理连接的个数 -->
+			<property name="maxWait" value="${maxWait}" /><!-- 获取连接时最大等待时间(毫秒),开启后启用公平锁并发效率下降、-->
+			<property name="useUnfairLock"  value="true"/><!-- 使用非公平锁 -->
+			<!-- ①Destroy线程检测连接的间隔时间②testWhileIdle的判断依据 -->
+			<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
+			<!-- Destroy线程如果检测到当前连接的最后活跃时间和当前时间差值大于xx,则关闭当前连接 -->
+			<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
+			<property name="validationQuery" value="${validationQuery}" />
+			<property name="testWhileIdle" value="${testWhileIdle}" /><!-- 建议true -->
+			<property name="testOnBorrow" value="${testOnBorrow}" /><!-- 申请连接时检测连接是否有效:建议false -->
+			<property name="testOnReturn" value="${testOnReturn}" /><!-- 归还连接时检测连接是否有效：建议false -->
+			<!-- -默认-1，要启用PSCache必须大于0 -->
+			<property name="maxOpenPreparedStatements" value="${maxOpenPreparedStatements}" />
+			<property name="removeAbandoned" value="${removeAbandoned}" /> <!-- 打开removeAbandoned功能 -->
+			<!-- 指定连接建立多长时间就需要被强制关闭 -->
+		    	<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" /> <!-- 1800秒，也就是30分钟 -->
+		    	<property name="logAbandoned" value="${logAbandoned}" /> <!-- 关闭abanded连接时输出错误日志(线程堆栈) -->
+	</bean>
+ 	<!-- transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 开启注解配置 -->
+	<context:annotation-config />  
+	<!-- 扫描service层 -->
+	<context:component-scan base-package="com.sagaware.service" />  
+	<!-- 开启事务注解驱动 :配置事务管理器-->
+	<tx:annotation-driven/>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="org.mybatis.jpetstore.domain" />
+	</bean>
+	    <!-- 自动扫描映射器    scan for mappers and let them be autowired -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	    <property name="basePackage" value="org.mybatis.jpetstore.persistence" />
+	</bean>
+</beans>

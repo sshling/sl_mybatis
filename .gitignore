@@ -1,0 +1,19 @@
+##ignore this file##
+/target/ 
+/output/
+
+.classpath
+.project
+.settings      
+
+##class file##
+
+*.class  
+.idea
+
+## other
+
+Thumbs.db  
+
+
+

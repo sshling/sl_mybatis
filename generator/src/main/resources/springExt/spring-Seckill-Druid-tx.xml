@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+<!-- 测试MyBatis+Druid打印日志和事务控制 -->
+	
+	<context:property-placeholder location="classpath:props/db-Druid.properties"  />
+	<context:component-scan base-package="cn.shaolingweb.framework.dao,cn.shaolingweb.framework.service" />
+	<context:component-scan base-package="com.jd.erp.seckill" />
+    
+	<bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" >
+			<property name="name" value="app1"/><!-- 多数据源时，监控时进行区分 -->
+			<property name="url" value="${db.url}" />
+			<property name="username" value="${db.username}" />
+			<property name="password" value="${db.password}" />
+			<property name="driverClassName" value="${db.driver}" /><!-- 可不配,根据url自动识别 -->
+			<property name="dbType" value="${dbType}"></property>
+			<property name="filters" value="${filters}" />
+			<property name="proxyFilters">
+				<list>
+					<ref bean="stat-filter" />
+				</list>
+			</property>
+			<property name="maxActive" value="${maxActive}" /><!-- 最大连接池数量 -->
+			<property name="minIdle" value="${minIdle}" /><!-- 最小连接池数量 -->
+			<property name="initialSize" value="${initialSize}" /><!-- 初始化时建立物理连接的个数 -->
+			<property name="maxWait" value="${maxWait}" /><!-- 获取连接时最大等待时间(毫秒),开启后启用公平锁并发效率下降、-->
+			<property name="useUnfairLock"  value="true"/><!-- 使用非公平锁 -->
+			<!-- ①Destroy线程检测连接的间隔时间②testWhileIdle的判断依据 -->
+			<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
+			<!-- Destroy线程如果检测到当前连接的最后活跃时间和当前时间差值大于xx,则关闭当前连接 -->
+			<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
+			<property name="validationQuery" value="${validationQuery}" />
+			<property name="testWhileIdle" value="${testWhileIdle}" /><!-- 建议true -->
+			<property name="testOnBorrow" value="${testOnBorrow}" /><!-- 申请连接时检测连接是否有效:建议false -->
+			<property name="testOnReturn" value="${testOnReturn}" /><!-- 归还连接时检测连接是否有效：建议false -->
+			<!-- -默认-1，要启用PSCache必须大于0 -->
+			<property name="maxOpenPreparedStatements" value="${maxOpenPreparedStatements}" />
+			<property name="removeAbandoned" value="${removeAbandoned}" /> <!-- 打开removeAbandoned功能 -->
+			<!-- 指定连接建立多长时间就需要被强制关闭 -->
+		    	<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" /> <!-- 1800秒，也就是30分钟 -->
+		    	<property name="logAbandoned" value="${logAbandoned}" /> <!-- 关闭abanded连接时输出错误日志(线程堆栈) -->
+		    	<!-- 每隔5分钟将监控日志输出到日志文件中，单位是毫秒。 -->
+			<property name="timeBetweenLogStatsMillis" value="300000" />
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="druidDataSource" />
+	</bean>
+	<!-- 开启事务注解驱动 :配置事务管理器 -->
+	<!--   
+	<tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true" />   --> 
+	<context:annotation-config /><!-- 开启注解配置 -->
+       <!-- 3：使用强大的切点表达式语言轻松定义目标方法 -->
+       <!-- 3.1 事务增强  默认事务管理器是transactionManager -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<!-- 3.1.1 事务属性定义 :IDE可提示的属性和属性值的形式，不再是之前易出错的逗号分隔字符串-->
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception" /><!-- 多个异常逗号分隔 -->
+		</tx:attributes>
+	</tx:advice>
+	<!-- 使用cglib代理 -->
+       <aop:config proxy-target-class="true">
+       		<!-- 3.2 通过aop定义事务增强切点
+       		注意1 ：包名之前有个空格
+       		注意2：参数里，2个点
+       		注意3：表达式的括号要对称，别少个
+       		 -->
+       		 <!-- 
+       		<aop:pointcut id="serviceMethod" expression="execution(* cn.shaolingweb.framework.service.*Service.*(..))" />
+       		 -->
+       		 <!-- 2个点：shaolingweb包和子包 -->
+       		<aop:pointcut id="serviceMethod" expression="execution(* com.jd.erp.seckill.domain.service.SecKillService.testSave*(..)) "  />
+       		<!-- 3.3事务切面：在哪个切点使用哪个增强 -->
+       		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"  />
+       </aop:config>
+	
+	<!-- 初始化数据表结构  启动创建，使用完删除 
+	<jdbc:initialize-database data-source="druidDataSource" ignore-failures="ALL">
+		<jdbc:script location="classpath:sql/seckill/init.sql" />
+	</jdbc:initialize-database>-->	
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="2000" /><!-- 2 second is too slow -->
+		<property name="logSlowSql" value="true" /><!-- 打印出查询时间比较慢(大于${slowSqlMillis})的sql -->
+		<property name="mergeSql" value="true" /><!-- 合并只是参数不同的sql语句 -->
+	</bean>
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Log4jFilter">
+		<property name="resultSetLogEnabled" value="false" />
+		<property name="statementExecutableSqlLogEnable" value="true" />
+	</bean>
+	<bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+		<property name="dbType" value="mysql" />
+		<property name="config" ref="wall-filter-config" />
+	</bean>
+	<bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig" init-method="init">
+		<property name="dir" value="META-INF/druid/wall/MySQL" />
+	</bean>
+	
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="druidDataSource" />
+		<property name="typeAliasesPackage" value="com.jd.erp.seckill.domain.model" />
+		<property name="mapperLocations" value="com/jd/erp/seckill/domain/model/**/*Mapper.xml" />
+		<!-- 一般在Spring直接配置，不单搞MyBatis全局配置 -->
+<!-- 		<property name="configLocation" value="res/Mybatis-Configuration.xml"></property> -->
+		<property name="configurationProperties">
+			<props>
+				<prop key="cacheEnabled">true</prop>
+				<!-- 以map返回时，即时null也设置返回 -->
+				<prop key="callSettersOnNulls">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 映射接口之一：配置MapperFactoryBean生成Mapper接口代理
+	<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		  <property name="mapperInterface" value="org.mybatis.spring.sample.mapper.UserMapper" />
+		  <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean> -->
+	<!-- 映射接口之二：配置自动扫描 ,将Mapper接口生成代理注入spring
+		basePackage：必填，以基础包扫描，可逗号、分号、空格来分割多个;
+		annotationClass :以注解扫描;
+		markerInterface :以父接口扫描，没有@Component@Named 注解采用默认命名;
+		非多数据源，无需配置sqlSessionFactory,若配置实用名称value而不是ref引用;
+	<bean id="mapper" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.shaolingweb.dao.mapper" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean> -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+</beans>

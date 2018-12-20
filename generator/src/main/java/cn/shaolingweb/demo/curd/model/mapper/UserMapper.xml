@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!--  自动生成,请勿修改：不使用namespace的话sql搜索定位会比较方便  -->
+<mapper namespace="cn.shaolingweb.demo.curd.model.User">
+	<resultMap id="RM_User" type="cn.shaolingweb.demo.curd.model.User">
+        	<result property="userId" column="user_id"/>
+        	<result property="groupId" column="group_id"/>
+        	<result property="username" column="username"/>
+        	<result property="email" column="email"/>
+        	<result property="registerTime" column="register_time"/>
+        	<result property="registerIp" column="register_ip"/>
+        	<result property="lastLoginTime" column="last_login_time"/>
+        	<result property="lastLoginIp" column="last_login_ip"/>
+        	<result property="loginCount" column="login_count"/>
+        	<result property="rank" column="rank"/>
+        	<result property="uploadTotal" column="upload_total"/>
+        	<result property="uploadSize" column="upload_size"/>
+        	<result property="uploadDate" column="upload_date"/>
+        	<result property="isAdmin" column="is_admin"/>
+        	<result property="isViewonlyAdmin" column="is_viewonly_admin"/>
+        	<result property="isSelfAdmin" column="is_self_admin"/>
+        	<result property="isDisabled" column="is_disabled"/>
+	</resultMap>
+	<sql id="columns">
+	    <![CDATA[user_id,group_id,username,email,register_time,register_ip,last_login_time,last_login_ip,login_count,rank,upload_total,upload_size,upload_date,is_admin,is_viewonly_admin,is_self_admin,is_disabled ]]>
+	</sql>
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql 
+	oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+	<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+		SELECT sequenceName.nextval AS ID FROM DUAL 
+       	</selectKey>
+	-->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+	    <![CDATA[
+	        INSERT INTO jc_user(user_id, group_id, username, email, register_time, register_ip, last_login_time, last_login_ip, login_count, rank, upload_total, upload_size, upload_date, is_admin, is_viewonly_admin, is_self_admin, is_disabled ) 
+	        VALUES(#{userId}, #{groupId}, #{username}, #{email}, #{registerTime}, #{registerIp}, #{lastLoginTime}, #{lastLoginIp}, #{loginCount}, #{rank}, #{uploadTotal}, #{uploadSize}, #{uploadDate}, #{isAdmin}, #{isViewonlyAdmin}, #{isSelfAdmin}, #{isDisabled} )
+	    ]]>
+	</insert>
+     <sql id="update_sql">
+         <set>
+                <if test="groupId != null">group_id =#{groupId},</if>
+                <if test="username != null and username != ''">username = #{username} ,</if>
+                <if test="email != null and email != ''">email = #{email} ,</if>
+                <if test="registerTime != null">register_time =#{registerTime}, </if>
+                <if test="registerIp != null and registerIp != ''">register_ip = #{registerIp} ,</if>
+                <if test="lastLoginTime != null">last_login_time =#{lastLoginTime}, </if>
+                <if test="lastLoginIp != null and lastLoginIp != ''">last_login_ip = #{lastLoginIp} ,</if>
+                <if test="loginCount != null">login_count =#{loginCount},</if>
+                <if test="rank != null">rank =#{rank},</if>
+                <if test="uploadTotal != null">upload_total =#{uploadTotal},</if>
+                <if test="uploadSize != null">upload_size =#{uploadSize},</if>
+                <if test="uploadDate != null">upload_date =#{uploadDate}, </if>
+       </set>
+    </sql>
+	<update id="update" >
+	        UPDATE  jc_user
+	    <include refid="update_sql" />
+	        WHERE 
+	     <choose>  
+		    <when test="ids != null  and ids !=''">id in (${ids})</when>  
+		   <otherwise>user_id =#{userId} </otherwise>  
+	     </choose> 
+	</update>
+	<delete id="delete">
+	<![CDATA[DELETE FROM jc_user WHERE
+	      user_id = #{id} 
+	]]>
+	</delete>
+	
+	<delete id="delete_batch_string" parameterType="map">
+		<![CDATA[ DELETE FROM jc_user WHERE id IN (${ids}) ]]>
+	</delete>
+	<delete id="delete_batch_array">
+	      DELETE FROM jc_user WHERE id IN 
+		<foreach item="item" collection="array" open="(" separator="," close=")">
+		#{item}
+		</foreach>
+	</delete>
+    
+    <delete id="delete_batch_list">
+        DELETE FROM jc_user WHERE id IN 
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+		#{item}
+	</foreach>
+    </delete>
+    <select id="getById" resultMap="RM_User">
+		SELECT <include refid="columns" />
+	    <![CDATA[FROM jc_user  WHERE  user_id = #{id}  ]]>
+	</select>
+	<sql id="findPage_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+               <if test="userId != null">
+	             AND user_id = #{userId}
+               </if>
+               <if test="groupId != null">
+	             AND group_id = #{groupId}
+               </if>
+                <if test="username != null and username !=''">
+		          <choose>  
+				   <when test="selectType['username']==1">  
+				      AND username like CONCAT('%', #{username}, '%')
+				   </when>  
+				   <otherwise>  
+					      AND username = #{username}
+				  </otherwise>  
+			</choose>
+	            </if>
+                <if test="email != null and email !=''">
+		          <choose>  
+				   <when test="selectType['email']==1">  
+				      AND email like CONCAT('%', #{email}, '%')
+				   </when>  
+				   <otherwise>  
+					      AND email = #{email}
+				  </otherwise>  
+			</choose>
+	            </if>
+		       <if test="registerTimeBegin != null">
+					AND register_time >= #{registerTimeBegin}
+			   </if>
+			   <if test="registerTimeEnd != null">
+					AND register_time &lt;= #{registerTimeEnd}
+			   </if>
+                <if test="registerIp != null and registerIp !=''">
+		          <choose>  
+				   <when test="selectType['registerIp']==1">  
+				      AND register_ip like CONCAT('%', #{registerIp}, '%')
+				   </when>  
+				   <otherwise>  
+					      AND register_ip = #{registerIp}
+				  </otherwise>  
+			</choose>
+	            </if>
+		       <if test="lastLoginTimeBegin != null">
+					AND last_login_time >= #{lastLoginTimeBegin}
+			   </if>
+			   <if test="lastLoginTimeEnd != null">
+					AND last_login_time &lt;= #{lastLoginTimeEnd}
+			   </if>
+                <if test="lastLoginIp != null and lastLoginIp !=''">
+		          <choose>  
+				   <when test="selectType['lastLoginIp']==1">  
+				      AND last_login_ip like CONCAT('%', #{lastLoginIp}, '%')
+				   </when>  
+				   <otherwise>  
+					      AND last_login_ip = #{lastLoginIp}
+				  </otherwise>  
+			</choose>
+	            </if>
+               <if test="loginCount != null">
+	             AND login_count = #{loginCount}
+               </if>
+               <if test="rank != null">
+	             AND rank = #{rank}
+               </if>
+               <if test="uploadTotal != null">
+	             AND upload_total = #{uploadTotal}
+               </if>
+               <if test="uploadSize != null">
+	             AND upload_size = #{uploadSize}
+               </if>
+		       <if test="uploadDateBegin != null">
+					AND upload_date >= #{uploadDateBegin}
+			   </if>
+			   <if test="uploadDateEnd != null">
+					AND upload_date &lt;= #{uploadDateEnd}
+			   </if>
+	         <if test="ids != null  and ids !=''">  
+		        AND id in (${ids})
+		   </if> 		
+		</where>
+	</sql>
+    <select id="findPage_count" resultType="long">
+        SELECT count(*) FROM jc_user 
+		<include refid="findPage_where"/>    
+    </select>
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="findPage" resultMap="RM_User">
+    	SELECT <include refid="columns" />
+	FROM jc_user 
+	<include refid="findPage_where"/>
+	<if test="sortColumns != null and sortColumns !=''">
+		ORDER BY ${sortColumns}
+	</if>
+    </select>
+		  <select id="getByUsername" resultMap="RM_User" parameterType="java.lang.String">
+		   SELECT <include refid="columns"/>
+		   <![CDATA[
+		       FROM jc_user where username = #{username}
+		   ]]>
+		  </select>
+</mapper>

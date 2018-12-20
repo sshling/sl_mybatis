@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+	<appender name="myConsole" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+		 	<param name="ConversionPattern"   value="[%d{HH mm:ss} %-5p][%t] %c{2}[%L] %m%n" />
+		</layout>
+		<!--过滤器设置输出的级别-->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="debug" />
+			<param name="levelMax" value="error" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="myFile" class="org.apache.log4j.RollingFileAppender">  
+		<param name="File" value="D:/output.log" /><!-- 设置日志输出文件名 -->
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p (%c:%L)- %m%n" />
+		</layout>
+	</appender>
+ 
+	<appender name="activexAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="E:/activex.log" /> 
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+		 <param name="ConversionPattern" 
+			value="[%d{MMdd HH:mm:ss SSS\} %-5p] [%t] %c{3\} - %m%n" />
+		</layout> 
+	</appender>
+	<!-- additivity 指示是否遵循缺省的继承机制，默认true子Logger会继承父Logger的appender,即子Logger会在父Logger里输出-->
+	<logger name="cn.shaolingweb" additivity="false" >
+		<level value="debug" /><!-- 是level不是priority -->
+		<appender-ref ref="myConsole" /> 
+	</logger>
+	<!-- MyBatis 原生打印SQL日志 -->
+	<logger name="org.mybatis.spring.SqlSessionUtils" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="myConsole" /> 
+	</logger>
+	<logger name="org.springframework.jdbc.datasource.DataSourceUtils" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="myConsole" /> 
+	</logger>
+	<logger name="org.mybatis.spring.transaction" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="myConsole" /> 
+	</logger>
+	
+	<!-- Druid打印日志配置	 -->
+	<logger name="druid.sql.Statement" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="myConsole" /> 
+	</logger>
+	<!-- 使用log4jdbc   仅打印SQL
+	<logger name="jdbc.sqlonly" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="myConsole" /> 
+	</logger>
+	-->
+	 <!-- 打印SQL+时间消耗 -->
+	<logger name="jdbc.sqltiming" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="myConsole" /> 
+	</logger>
+	<!-- MyBatis缓存日志 -->
+	<logger name="org.apache.ibatis.cache.decorators.LoggingCache" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="myConsole" /> 
+	</logger>
+	<!-- 根logger的设置-->
+	<root>
+		<priority value ="info"  />
+		<appender-ref ref="myConsole"/>
+	</root>
+</log4j:configuration>
