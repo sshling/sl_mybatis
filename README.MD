@@ -58,9 +58,8 @@ k8s+docker
 ## 框架
 
 网络：
-- netty
+- - okHttp3 netty   [Vert.x](https://vertx.io/)
 - [Mycat2](https://github.com/MyCATApache/Mycat2)
-- okHttp3
 - [XX-Net:web代理工具](https://github.com/XX-net/XX-Net)
 
 搜索(ELK所有组件):
