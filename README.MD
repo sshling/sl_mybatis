@@ -14,13 +14,16 @@
 - [技术和架构等相关文档](https://github.com/xunchangguo/km)
 - [计算机相关技术资料整理](https://github.com/EZLippi/practical-programming-books)
 - [MineKnowContainer:个人知识库](https://github.com/Moonergfp/MineKnowContainer)
+- 问答
 
 ## 面试
 
 - [JavaGuide:java面试指南](https://github.com/Snailclimb/JavaGuide )
 - [java设计模式](https://github.com/iluwatar/java-design-patterns)
 
-- 算法和数据结构
+算法和数据结构
+- [Algorithm Visualizer](https://algorithm-visualizer.org/branch-and-bound/binary-search-tree)
+
 
 ## 快速开发
 
@@ -30,6 +33,15 @@
 - [processon](https://www.processon.com)
 
 ## 工具
+
+- [开发工具推荐](https://juejin.im/topic/5abb67d2092dcb4620ca3324)
+- JSON   [fx](https://github.com/antonmedv/fx) [jq](https://stedolan.github.io/jq/)  [JsonPath](https://github.com/json-path/JsonPath)
+在线：
+- [processon](https://www.processon.com/)  [pinbox](https://withpinbox.com/)
+- [Nginx配置](https://nginxconfig.io/)
+
+
+
 JVM:
 - [Alibaba Java诊断利器Arthas](https://alibaba.github.io/arthas/)
 - [javamelody:jvm监控](https://github.com/javamelody/javamelody)
@@ -60,7 +72,7 @@ k8s+docker
 网络：
 - 协议: https/http2/gRPC/websocket/tcp
 - 分布式一致性协议：etcd zk
-- - okHttp3 netty   [Vert.x](https://vertx.io/) akka  
+- - okHttp3 netty   [Vert.x](https://vertx.io/) akka   Disruptor(高性能无锁阻塞队列)
 - [Mycat2](https://github.com/MyCATApache/Mycat2)
 - [XX-Net:web代理工具](https://github.com/XX-net/XX-Net)
 
