@@ -58,7 +58,9 @@ k8s+docker
 ## 框架
 
 网络：
-- - okHttp3 netty   [Vert.x](https://vertx.io/)
+- 协议: https/http2/gRPC/websocket/tcp
+- 分布式一致性协议：etcd zk
+- - okHttp3 netty   [Vert.x](https://vertx.io/) akka  
 - [Mycat2](https://github.com/MyCATApache/Mycat2)
 - [XX-Net:web代理工具](https://github.com/XX-net/XX-Net)
 
