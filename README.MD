@@ -20,10 +20,12 @@
 
 - [JavaGuide:java面试指南](https://github.com/Snailclimb/JavaGuide )
 - [java设计模式](https://github.com/iluwatar/java-design-patterns)
+- [互联网 Java 工程师进阶知识完全扫盲:advanced-java](https://github.com/doocs/advanced-java)
+- [miaosha:秒杀系统设计与实现](https://github.com/qiurunze123/miaosha)
 
 算法和数据结构
 - [Algorithm Visualizer](https://algorithm-visualizer.org/branch-and-bound/binary-search-tree)
-
+- [TheAlgorithms/Java](https://github.com/TheAlgorithms/Java)
 
 ## 快速开发
 
@@ -32,6 +34,8 @@
 - vscode
 - [processon](https://www.processon.com)
 
+- [SpringCloud 教程](https://github.com/forezp/SpringCloudLearning)
+
 ## 工具
 
 - [开发工具推荐](https://juejin.im/topic/5abb67d2092dcb4620ca3324)
@@ -39,8 +43,9 @@
 在线：
 - [processon](https://www.processon.com/)  [pinbox](https://withpinbox.com/)
 - [Nginx配置](https://nginxconfig.io/)
-
-
+微信：
+- [WxJava:微信Java SDK](https://github.com/Wechat-Group/WxJava)
+- [wxpy 在 itchat基础上](https://wxpy.readthedocs.io/zh/latest/)
 
 JVM:
 - [Alibaba Java诊断利器Arthas](https://alibaba.github.io/arthas/)
@@ -76,9 +81,10 @@ k8s+docker
 - [Mycat2](https://github.com/MyCATApache/Mycat2)
 - [XX-Net:web代理工具](https://github.com/XX-net/XX-Net)
 
-搜索(ELK所有组件):
+搜索(ELK所有组件)和爬虫:
 - lucene
 - [ES](https://github.com/elastic/elasticsearch)
+- [jerryWebSpider](https://github.com/jrhu05/jerryWebSpider)
 
 业务开发：
 - springX
