@@ -106,7 +106,7 @@ k8s+docker
 
 
 
-## DEMO
+## demo
 
 - websocket
 - HTTP2
@@ -118,6 +118,9 @@ k8s+docker
 秒杀：[秒杀系统设计与实现.互联网工程师进阶与分析](https://github.com/qiurunze123/miaosha)
 
 --- 
+### 其它
+- [Hope-plus](https://github.com/java-aodeng/hope-plus)
+
 
 ### my Demo
 - [pytest](https://gitee.com/sshling/pytest#domain)
