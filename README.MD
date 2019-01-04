@@ -120,7 +120,7 @@ k8s+docker
 --- 
 ### 其它
 - [Hope-plus](https://github.com/java-aodeng/hope-plus)
-
+- [高并发demo代码集锦](https://github.com/Wasabi1234/concurrency)
 
 ### my Demo
 - [pytest](https://gitee.com/sshling/pytest#domain)
