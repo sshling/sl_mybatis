@@ -12,8 +12,11 @@
 .idea
 
 ## other
+.DS_Store
+.DS_Store?
+*.swp
+.Trashes
 
 Thumbs.db  
-
 
 
