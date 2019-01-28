@@ -22,7 +22,7 @@
 - [java设计模式](https://github.com/iluwatar/java-design-patterns)
 - [互联网 Java 工程师进阶知识完全扫盲:advanced-java](https://github.com/doocs/advanced-java)
 - [miaosha:秒杀系统设计与实现](https://github.com/qiurunze123/miaosha)
-
+- [intervies:面试(java方向)](https://github.com/kdn251/interviews)
 算法和数据结构
 - [Algorithm Visualizer](https://algorithm-visualizer.org/branch-and-bound/binary-search-tree)
 - [TheAlgorithms/Java](https://github.com/TheAlgorithms/Java)
@@ -98,7 +98,7 @@ k8s+docker
 - kafka flume  JMQ 
 - Tomcat
 - [dubbo](https://github.com/apache/incubator-dubbo)
-
+- [nacos:服务发现，阿里](https://github.com/alibaba/nacos)
 
 量化：
 - wzPython:量宽
